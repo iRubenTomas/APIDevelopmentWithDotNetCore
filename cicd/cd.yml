@@ -38,4 +38,4 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop/publish.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop'
