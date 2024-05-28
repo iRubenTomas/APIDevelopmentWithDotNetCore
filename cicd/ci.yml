@@ -31,9 +31,9 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Files to Staging Directory'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'  # Root of the repository
-    Contents: '**/bin/$(buildConfiguration)/**'  # Files from the build configuration
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/drop'
+    SourceFolder: '$(Build.SourcesDirectory)'  
+    Contents: '**/bin/$(buildConfiguration)/**'  
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
     
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Build Artifact'
