@@ -16,7 +16,7 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: 'Download Artifact from CI Pipeline'
   inputs:
-    source: Pipeline-ci
+    source: Pipeline-Ci
     path: '$(Pipeline.Workspace)/drop'
 
 
