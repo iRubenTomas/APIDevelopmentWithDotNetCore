@@ -49,9 +49,12 @@ This project is organized to efficiently manage car inventories using a clean ar
 - **CQRS (Command Query Responsibility Segregation)**: Separate models for reading (queries) and writing (commands).
 - **Repository Pattern**: Abstract data access logic from business logic.
 - **Unit of Work**: Manage transactions across multiple repositories.
-- **Logging**: Use Serilog for structured logging.
-- **Validation**: Use FluentValidation for input validation.
-- **Resilience**: Use Polly for handling transient faults.
+- **Logging**: Serilog for structured logging.
+- **Validation**: FluentValidation for input validation.
+- **Resilience**: Polly for handling transient faults.
 - **Health Checks**: Implement health checks to monitor system status.
-- **Swagger/OpenAPI**: Use Swagger for API documentation and testing.
-- **Authentication/Authorization**: Use JWT or OAuth for securing endpoints.
+- **Swagger/OpenAPI**: For API documentation and testing.
+- **EntityFrameworkCore**: For working with databases using the Entity Framework ORM.
+- **MediatR**: For implementing the mediator pattern, which helps in decoupling the request/response logic.
+- **AutoMapper**: For object-to-object mapping, which helps in simplifying the mapping code between DTOs and entities.
+- **AspNetCoreRateLimit**: For implementing rate limiting in API.
