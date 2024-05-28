@@ -17,6 +17,9 @@ steps:
   artifact: drop
   displayName: 'Download Artifact from CI Pipeline'
 
+- script: ls -R $(Pipeline.Workspace)/drop
+  displayName: 'List contents of drop directory'
+  
 - task: UseDotNet@2
   displayName: 'Install .NET SDK 8.0'
   inputs:
