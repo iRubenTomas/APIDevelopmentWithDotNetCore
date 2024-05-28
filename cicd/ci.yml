@@ -40,11 +40,11 @@ steps:
   inputs:
     SourceFolder: '$(Build.ArtifactStagingDirectory)/publish'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
     ArtifactName: 'drop'
 
