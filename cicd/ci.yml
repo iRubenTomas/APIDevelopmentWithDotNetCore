@@ -28,8 +28,14 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    projects: 'tests/**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '$(Build.ArtifactStagingDirectory)/TestResults/*.trx'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
 
 - task: PublishBuildArtifacts@1
   inputs:
