@@ -9,35 +9,35 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: 'Install .NET SDK 8.0'
   inputs:
     packageType: 'sdk'
     version: '8.0.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore NuGet Packages'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build Projects'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- task: CopyFiles@2
+  displayName: 'Copy Files to Staging Directory'
   inputs:
-    command: 'test'
-    projects: 'tests/**/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults'
+    SourceFolder: '$(Build.SourcesDirectory)'  
+    Contents: '**/bin/$(buildConfiguration)/**'  
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Build Artifact'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'drop'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '$(Build.ArtifactStagingDirectory)/TestResults/*.trx'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'

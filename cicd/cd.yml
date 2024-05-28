@@ -1,3 +1,8 @@
+resources:
+  pipelines:
+    - pipeline: Pipeline-Ci  
+      source: Pipeline-Ci  
+
 trigger:
 - main
 
@@ -8,21 +13,38 @@ variables:
 - template: common-variables.yml
 
 steps:
-- download: current
-  artifact: drop
-  displayName: 'Download Artifact'
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Artifact from CI Pipeline'
+  inputs:
+    buildType: 'specific'
+    project: '$(System.TeamProject)'
+    pipeline: 'Pipeline-Ci'  
+    runVersion: 'latest'
+    artifact: 'drop'
+    targetPath: '$(Pipeline.Workspace)/drop'
+
 
 - task: UseDotNet@2
   displayName: 'Install .NET SDK 8.0'
   inputs:
     packageType: 'sdk'
-    version: '8.0'
+    version: '8.0.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/publish'
+    
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to Azure Web App'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/publish'
+
+
