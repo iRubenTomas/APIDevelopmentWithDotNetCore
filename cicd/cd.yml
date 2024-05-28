@@ -13,11 +13,16 @@ variables:
 - template: common-variables.yml
 
 steps:
+
 - task: DownloadPipelineArtifact@2
   displayName: 'Download Artifact from CI Pipeline'
   inputs:
-    source: Pipeline-Ci
-    path: '$(Pipeline.Workspace)/drop'
+    buildType: 'specific'
+    project: '$(System.TeamProject)'
+    pipeline: 'Pipeline-Ci'  
+    runVersion: 'latest'
+    artifact: 'drop'
+    targetPath: '$(Pipeline.Workspace)/drop'
 
 
 - task: UseDotNet@2
