@@ -2,7 +2,6 @@
 using CarInventory.Application.Commands.Car.Create;
 using CarInventory.Domain.Exceptions;
 using CarInventory.Domain.Interfaces.Shared;
-using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -14,14 +13,14 @@ namespace CarInventory.Application.Commands.Car.Delete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<CreateCarCommandHandler> _logger;
-        private readonly IValidator<CreateCarCommand> _validator;
 
-        public DeleteCarCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateCarCommandHandler> logger, IValidator<CreateCarCommand> validator)
+
+        public DeleteCarCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateCarCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _validator = validator;
+
         }
         public async Task<Unit> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
         {

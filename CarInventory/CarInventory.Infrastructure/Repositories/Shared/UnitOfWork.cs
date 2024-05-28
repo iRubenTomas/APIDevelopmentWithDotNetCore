@@ -12,13 +12,9 @@ namespace CarInventory.Infrastructure.Repositories.Shared
         {
             _context = context;
             Cars = new CarRepository(context);
-            Customers = new CustomerRepository(context);
-            SalesRecords = new SalesRecordRepository(context);
         }
 
         public ICarRepository Cars { get; private set; }
-        public ICustomerRepository Customers { get; private set; }
-        public ISalesRecordRepository SalesRecords { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

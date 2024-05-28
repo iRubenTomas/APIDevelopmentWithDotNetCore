@@ -14,7 +14,7 @@ namespace CarInventory.Api.Util.CustomHealthCheck
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             // Replace with the actual third-party API URL
-            var apiUrl = "https://api.example.com/health";
+            var apiUrl = "https://freetestapi.com/api/v1/cars";
 
             try
             {

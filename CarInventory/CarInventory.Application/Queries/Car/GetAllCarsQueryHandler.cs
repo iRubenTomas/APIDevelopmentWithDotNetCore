@@ -21,11 +21,11 @@ namespace CarInventory.Application.Queries.Car
 
         public async Task<PaginatedList<CarDto>> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
         {
-            var cars = _unitOfWork.Cars.GetAllAsync(); 
+            var cars = await _unitOfWork.Cars.GetAllAsync(); 
 
-            var carDtos = _mapper.Map<List<CarDto>>(cars.Result.ToList());
+            var carDtos = _mapper.Map<IEnumerable<CarDto>>(cars.ToList());
 
-            var paginatedCars = await PaginatedList<CarDto>.CreateAsync(carDtos.AsQueryable(), request.PageNumber, request.PageSize);
+            var paginatedCars = await PaginatedList<CarDto>.CreateAsync((IQueryable<CarDto>)carDtos, request.PageNumber, request.PageSize);
  
             return paginatedCars;
         }

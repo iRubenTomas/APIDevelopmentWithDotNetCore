@@ -1,4 +1,5 @@
-﻿using Serilog.Core;
+﻿using Microsoft.AspNetCore.Http;
+using Serilog.Core;
 using Serilog.Events;
 
 namespace CarInventory.Api.Util.Enrichers

@@ -1,7 +1,8 @@
 ﻿using CarInventory.Application.Dtos;
+using CarInventory.Domain.Interfaces.Shared;
 using MediatR;
 
-namespace CarInventory.Application.Queries.Car
+namespace CarInventory.Application.Queries.Car.Paginated
 {
 
     public class GetAllCarsPaginatedQuery : IRequest<PaginatedList<CarDto>>

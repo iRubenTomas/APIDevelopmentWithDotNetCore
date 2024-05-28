@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using CarInventory.Application.Commands.Car.Create;
 using CarInventory.Application.Dtos;
 using CarInventory.Domain.Exceptions;
 using CarInventory.Domain.Interfaces.Shared;
-using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -13,15 +11,13 @@ namespace CarInventory.Application.Commands.Car.Update
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<CreateCarCommandHandler> _logger;
-        private readonly IValidator<CreateCarCommand> _validator;
+        private readonly ILogger<UpdateCarCommandHandler> _logger;
 
-        public UpdateCarCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateCarCommandHandler> logger, IValidator<CreateCarCommand> validator)
+        public UpdateCarCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UpdateCarCommandHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _validator = validator;
         }
         public async Task<CarDto> Handle(UpdateCarCommand updateCar, CancellationToken cancellationToken)
         {

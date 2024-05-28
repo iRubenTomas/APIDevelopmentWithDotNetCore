@@ -1,4 +1,5 @@
 ﻿using CarInventory.Domain.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
@@ -37,6 +38,20 @@ namespace CarInventory.Infrastructure.Middleware.ExceptionHandler
 
             switch (ex)
             {
+                case ValidationException validationException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    problem = new CustomValidationProblemsDetails
+                    {
+                        Title = "Validation failed",
+                        Status = (int)statusCode,
+                        Type = nameof(ValidationException),
+                        Errors = validationException.Errors
+                            .GroupBy(e => e.PropertyName)
+                            .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray())
+                    };
+                    problem.Extensions.Add("traceId", httpContext.TraceIdentifier);
+                    break;
+
                 case BadRequestException BadRequestException:
                     statusCode = HttpStatusCode.BadRequest;
                     problem = new CustomValidationProblemsDetails
@@ -49,6 +64,7 @@ namespace CarInventory.Infrastructure.Middleware.ExceptionHandler
                     };
                     problem.Extensions.Add("traceId", httpContext.TraceIdentifier);
                     break;
+
                 case NotFoundException NotFound:
                     statusCode = HttpStatusCode.BadRequest;
                     problem = new CustomValidationProblemsDetails
@@ -60,6 +76,7 @@ namespace CarInventory.Infrastructure.Middleware.ExceptionHandler
                     };
                     problem.Extensions.Add("traceId", httpContext.TraceIdentifier);
                     break;
+
                 default:
                     statusCode = HttpStatusCode.BadRequest;
                     problem = new CustomValidationProblemsDetails

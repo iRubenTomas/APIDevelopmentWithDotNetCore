@@ -4,7 +4,7 @@ using CarInventory.Domain.Interfaces.Shared;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace CarInventory.Application.Queries.Car
+namespace CarInventory.Application.Queries.Car.Paginated
 {
     public class GetAllCarsPaginatedQueryHandler : IRequestHandler<GetAllCarsPaginatedQuery, PaginatedList<CarDto>>
     {

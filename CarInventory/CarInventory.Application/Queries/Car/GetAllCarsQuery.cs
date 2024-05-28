@@ -1,9 +1,10 @@
 ﻿using CarInventory.Application.Dtos;
+using CarInventory.Domain.Interfaces.Shared;
 using MediatR;
 
 namespace CarInventory.Application.Queries.Car
 {
-    public class GetAllCarsQuery : IRequest<PaginatedList<CarDto>>
+    public class GetAllCarsQuery : ICacheableQuery<PaginatedList<CarDto>>
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;

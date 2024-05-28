@@ -1,6 +1,5 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using CarInventory.Api.Util.CustomHealthCheck;
 using CarInventory.Infrastructure;
 using CarInventory.Application;
 using CarInventory.Infrastructure.Middleware.ExceptionHandler;
@@ -18,42 +17,26 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add FluentValidation
-        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        // Add FluentValidation - This bypass the pipeline 
+        //builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         // Add services to the container.
-        builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApplication();
+        builder.Services.AddInfrastructure(builder.Configuration);
+       
 
         // Serilog
         builder.Host.UseSerilog((context, loggerConfig) =>
             loggerConfig
-            .WriteTo.Console()
             .ReadFrom.Configuration(context.Configuration)
             .Enrich.FromLogContext()
             .Enrich.WithProperty("ApplicationName", context.HostingEnvironment.ApplicationName)
             .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
             .Enrich.With<HttpContextEnricher>());
 
-
-        // Configure health checks
-        builder.Services.AddHttpClient<ThirdPartyApiHealthCheck>(); // Register the HttpClient for the custom health check
-        builder.Services.AddHealthChecks()
-            .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "SQL Server")
-            .AddCheck<ThirdPartyApiHealthCheck>("Third-Party API Health Check");
-
-        // Configure Polly policies -GLOBALLY
-        //var retryPolicy = HttpPolicyExtensions
-        //    .HandleTransientHttpError()
-        //    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-        //builder.Services.AddHttpClient("PollyHttpClient")
-        //    .AddPolicyHandler(retryPolicy);
-
         // Add HttpClient service
         builder.Services.AddHttpClient();
 
-        
 
         //Good practice to handle external services communication
         builder.Services.AddCors(options =>
@@ -116,7 +99,11 @@ internal class Program
         // Apply CORS policy
         app.UseCors("all");
 
-        app.UseSerilogRequestLogging();
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = "ASP.NET HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+            options.GetLevel = (httpContext, elapsed, ex) => Serilog.Events.LogEventLevel.Information;
+        });
 
         app.UseRouting();
 

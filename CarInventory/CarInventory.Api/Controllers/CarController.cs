@@ -4,10 +4,10 @@ using CarInventory.Application.Commands.Car.Delete;
 using CarInventory.Application.Commands.Car.Update;
 using CarInventory.Application.Dtos;
 using CarInventory.Application.Queries.Car;
-using CarInventory.Domain.Exceptions;
+using CarInventory.Application.Queries.Car.Paginated;
+using CarInventory.Domain.Interfaces.Shared;
 using CarInventory.Infrastructure.Middleware.ExceptionHandler;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarInventory.Api.Controllers
@@ -25,7 +25,6 @@ namespace CarInventory.Api.Controllers
             _mediator = mediator;
         }
 
-      
         /// <summary>
         /// Creates a new car.
         /// </summary>
@@ -34,20 +33,14 @@ namespace CarInventory.Api.Controllers
         /// <response code="201">Returns the ID of the created car</response>
         /// <response code="400">If the car is invalid</response>
         [HttpPost]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(typeof(Guid), 201)]
         [ProducesResponseType(400)]
         [ApiVersion("1.0")]
-        public async Task<ActionResult<Guid>> Post(CreateCarCommand createCar)
+        public async Task<ActionResult<Guid>> Post([FromBody] CreateCarCommand createCar)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var response = await _mediator.Send(createCar);
             return CreatedAtAction(nameof(GetById), new { id = response }, response);
         }
-
 
         /// <summary>
         /// Gets a car by ID.
@@ -55,13 +48,17 @@ namespace CarInventory.Api.Controllers
         /// <param name="id">The ID of the car.</param>
         /// <returns>The car details.</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(CarDto), 200)]
         [ProducesResponseType(404)]
         [ApiVersion("1.0")]
         public async Task<ActionResult<CarDto>> GetById(Guid id)
         {
-            var command = new GetCarByIdQuery(id);
-            var car = await _mediator.Send(command);
+            var query = new GetCarByIdQuery(id);
+            var car = await _mediator.Send(query);
+            if (car == null)
+            {
+                return NotFound();
+            }
             return Ok(car);
         }
 
@@ -72,7 +69,7 @@ namespace CarInventory.Api.Controllers
         /// <param name="pageSize">The page size (default is 10).</param>
         /// <returns>A paginated list of cars.</returns>
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(PaginatedList<CarDto>), 200)]
         [ProducesResponseType(400)]
         [ApiVersion("1.0")]
         public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
@@ -89,7 +86,7 @@ namespace CarInventory.Api.Controllers
         /// <param name="pageSize">The page size (default is 10).</param>
         /// <returns>A paginated list of cars.</returns>
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(PaginatedList<CarDto>), 200)]
         [ProducesResponseType(400)]
         [ApiVersion("2.0")]
         public async Task<IActionResult> GetAllPaginated([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
@@ -114,10 +111,9 @@ namespace CarInventory.Api.Controllers
         [ApiVersion("1.0")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            
             var command = new DeleteCarCommand(id);
             await _mediator.Send(command);
-            return NoContent();   
+            return NoContent();
         }
 
         /// <summary>
@@ -128,15 +124,17 @@ namespace CarInventory.Api.Controllers
         /// <response code="200">Returns the updated car details.</response>
         /// <response code="400">If the car data is invalid.</response>
         /// <response code="404">If the car is not found.</response>
-        [HttpPut()]
-        [ProducesResponseType(204)]
+        [HttpPut]
+        [ProducesResponseType(typeof(CarDto), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(typeof(CustomValidationProblemsDetails), 400)]
         [ApiVersion("1.0")]
-        public async Task<IActionResult> Update(UpdateCarCommand updateCar)
+        public async Task<IActionResult> Update([FromBody] UpdateCarCommand updateCar)
         {
             var updatedCar = await _mediator.Send(updateCar);
             return Ok(updatedCar);
         }
+
+
     }
 }

@@ -7,12 +7,12 @@ namespace CarInventory.Api.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ThirdPartyIntegration : ControllerBase
+    public class ThirdPartyIntegrationController : ControllerBase
     {
 
-        private readonly ILogger<ThirdPartyIntegration> _logger;
+        private readonly ILogger<ThirdPartyIntegrationController> _logger;
         private readonly IMediator _mediator;
-        public ThirdPartyIntegration(ILogger<ThirdPartyIntegration> logger, IMediator mediator)
+        public ThirdPartyIntegrationController(ILogger<ThirdPartyIntegrationController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
