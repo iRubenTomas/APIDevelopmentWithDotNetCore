@@ -17,7 +17,7 @@ steps:
   artifact: drop
   displayName: 'Download Artifact from CI Pipeline'
 
-- script: ls -R $(Pipeline.Workspace)/drop
+- script: ls -R $(Build.ArtifactStagingDirectory)/drop
   displayName: 'List contents of drop directory'
   
 - task: UseDotNet@2
@@ -33,4 +33,4 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Pipeline.Workspace)/drop/publish.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop/publish.zip'
