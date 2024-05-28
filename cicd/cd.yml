@@ -20,9 +20,9 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy to Azure Web App'
+  displayName: 'Deploy to Azure Web App.'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip
+    packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip'
