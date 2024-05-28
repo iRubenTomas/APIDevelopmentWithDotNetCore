@@ -30,4 +30,4 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Pipeline.Workspace)/drop/**/*.zip'
+    packageForLinux: '$(Pipeline.Workspace)/drop/publish.zip'
