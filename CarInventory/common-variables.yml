@@ -1,0 +1,6 @@
+# cicd/variables-prod.yml
+variables:
+  buildConfiguration: 'Release'
+  azureSubscription: 'AzureConnection'
+  appServiceName: 'ASP-DefaultResourceGroupWEU-8c73'
+  resourceGroupName: 'DefaultResourceGroup-WEU'

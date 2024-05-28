@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- template: variables-dev.yml  
+
+steps:
+- download: current
+  artifact: drop
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appType: 'webApp'
+    WebAppName: $(appServiceName)
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
