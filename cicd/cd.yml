@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- template: variables-dev.yml  
+- template: common-variables.yml  
 
 steps:
 - download: current

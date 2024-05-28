@@ -5,7 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- template: variables-dev.yml  # Use the appropriate variables file
+- template: common-variables.yml  # Use the appropriate variables file
 
 steps:
 - task: UseDotNet@2s
