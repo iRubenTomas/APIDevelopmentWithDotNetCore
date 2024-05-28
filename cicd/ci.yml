@@ -35,20 +35,6 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/publish'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to Artifact Staging Directory'
-  inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)/publish'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Project'
-  inputs:
-    command: 'publish'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/publish'
-
 - task: ArchiveFiles@2
   displayName: 'Archive Published Files'
   inputs:
@@ -59,7 +45,7 @@ steps:
     replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
-  displayName: 'Publish Build Artifacts'
+  displayName: 'Publish Build Artifact'
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/publish'
+    targetPath: '$(Build.ArtifactStagingDirectory)/publish/publish.zip'
     artifact: 'drop'
