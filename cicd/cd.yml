@@ -32,10 +32,17 @@ steps:
     version: '8.0.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/publish'
+
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to Azure Web App'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: 'webApp'
     WebAppName: $(appServiceName)
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/drop'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/publish'
