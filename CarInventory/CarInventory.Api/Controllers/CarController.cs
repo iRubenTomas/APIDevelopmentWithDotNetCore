@@ -54,12 +54,8 @@ namespace CarInventory.Api.Controllers
         public async Task<ActionResult<CarDto>> GetById(Guid id)
         {
             var query = new GetCarByIdQuery(id);
-            var car = await _mediator.Send(query);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            return Ok(car);
+            return await _mediator.Send(query);
+
         }
 
         /// <summary>
@@ -134,7 +130,5 @@ namespace CarInventory.Api.Controllers
             var updatedCar = await _mediator.Send(updateCar);
             return Ok(updatedCar);
         }
-
-
     }
 }
