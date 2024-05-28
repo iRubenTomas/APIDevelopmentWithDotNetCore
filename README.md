@@ -58,3 +58,4 @@ This project is organized to efficiently manage car inventories using a clean ar
 - **MediatR**: For implementing the mediator pattern, which helps in decoupling the request/response logic.
 - **AutoMapper**: For object-to-object mapping, which helps in simplifying the mapping code between DTOs and entities.
 - **AspNetCoreRateLimit**: For implementing rate limiting in API.
+- **API Versioning**: Use API versioning to manage changes and ensure backward compatibility.
