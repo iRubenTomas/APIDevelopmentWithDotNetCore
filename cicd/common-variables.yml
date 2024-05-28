@@ -2,5 +2,5 @@
 variables:
   buildConfiguration: 'Release'
   azureSubscription: 'AzureConnection'
-  appServiceName: 'ASP-DefaultResourceGroupWEU-8c73'
+  appServiceName: 'CarInventoryAPI'
   resourceGroupName: 'DefaultResourceGroup-WEU'
