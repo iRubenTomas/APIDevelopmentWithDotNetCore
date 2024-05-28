@@ -73,23 +73,38 @@ internal class Program
 
         var app = builder.Build();
 
-
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        // Enable Swagger for all environments for testing purposes
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            IReadOnlyList<ApiVersionDescription> descriptions = app.DescribeApiVersions();
+            foreach (var desc in descriptions)
             {
-                IReadOnlyList<ApiVersionDescription> descriptions = app.DescribeApiVersions();
-                foreach (var desc in descriptions)
-                {
-                    string url = $"/swagger/{desc.GroupName}/swagger.json";
-                    string name = desc.GroupName.ToUpperInvariant();
+                string url = $"/swagger/{desc.GroupName}/swagger.json";
+                string name = desc.GroupName.ToUpperInvariant();
 
-                    options.SwaggerEndpoint(url, name);
-                }
-            });
-        }
+                options.SwaggerEndpoint(url, name);
+            }
+            options.RoutePrefix = string.Empty; // Serve the Swagger UI at the app's root
+        });
+
+        //// Configure the HTTP request pipeline.
+        //if (app.Environment.IsDevelopment())
+        //{
+        //    app.UseSwagger();
+        //    app.UseSwaggerUI(options =>
+        //    {
+        //        IReadOnlyList<ApiVersionDescription> descriptions = app.DescribeApiVersions();
+        //        foreach (var desc in descriptions)
+        //        {
+        //            string url = $"/swagger/{desc.GroupName}/swagger.json";
+        //            string name = desc.GroupName.ToUpperInvariant();
+
+        //            options.SwaggerEndpoint(url, name);
+        //        }
+        //    });
+        //}
 
         //ExceptionHandler
         app.UseMiddleware<ExceptionMiddleware>();
