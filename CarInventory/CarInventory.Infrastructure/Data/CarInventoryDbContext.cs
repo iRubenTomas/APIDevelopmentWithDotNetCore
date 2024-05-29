@@ -1,8 +1,5 @@
 ﻿
 using CarInventory.Domain.Entities;
-using CarInventory.Domain.Entities.Cars;
-using CarInventory.Domain.Entities.Customers;
-using CarInventory.Domain.Entities.Sales;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarInventory.Infrastructure.Data
@@ -13,8 +10,6 @@ namespace CarInventory.Infrastructure.Data
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<SalesRecord> SalesRecords { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,27 +38,6 @@ namespace CarInventory.Infrastructure.Data
                     VIN = "2HGEH41JXMN109187",
                     Price = 22000.00m,
                     Status = "Available",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                }
-            );
-
-            modelBuilder.Entity<Customer>().HasData(
-                new Customer
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "John Doe",
-                    Email = "john.doe@example.com",
-                    Phone = "555-1234",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
-                },
-                new Customer
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Jane Smith",
-                    Email = "jane.smith@example.com",
-                    Phone = "555-5678",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }

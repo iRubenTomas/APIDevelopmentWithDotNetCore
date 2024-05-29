@@ -2,7 +2,7 @@
 using CarInventory.Application.Commands.Car.Create;
 using CarInventory.Application.Commands.Car.Update;
 using CarInventory.Application.Dtos;
-using CarInventory.Domain.Entities.Cars;
+using CarInventory.Domain.Entities;
 
 namespace CarInventory.Application.Mappings
 {

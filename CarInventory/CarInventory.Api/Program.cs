@@ -10,6 +10,8 @@ using CarInventory.Api.Util.OpenApi;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using CarInventory.Api.Util.Enrichers;
+using AspNetCoreRateLimit;
+using Microsoft.Extensions.Configuration;
 
 internal class Program
 {
@@ -69,7 +71,13 @@ internal class Program
             options.SubstituteApiVersionInUrl = true;
         });
 
-        
+
+        // Rate limit
+        builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+        builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+        // Add in-memory rate limiting stores
+        builder.Services.AddInMemoryRateLimiting();
 
         var app = builder.Build();
 
@@ -91,8 +99,11 @@ internal class Program
             });
         }
 
-        //ExceptionHandler
+        // Middleware : ExceptionHandler 
         app.UseMiddleware<ExceptionMiddleware>();
+
+        //  Middleware: rate limiting
+        app.UseIpRateLimiting();
 
         app.UseHttpsRedirection();
 

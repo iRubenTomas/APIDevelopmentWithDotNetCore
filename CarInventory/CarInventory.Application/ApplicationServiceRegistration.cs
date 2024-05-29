@@ -1,4 +1,5 @@
 ﻿using CarInventory.Application.Behaviors;
+using CarInventory.Application.Validators;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,15 +17,16 @@ namespace CarInventory.Application
 
             // FluentValidation
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
+            
 
             // MediatR
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             // Behaviors
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+            
 
             // Cache service
             services.AddMemoryCache();

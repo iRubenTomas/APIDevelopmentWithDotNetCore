@@ -22,7 +22,7 @@ namespace CarInventory.Application.Commands.Car.Create
         public async Task<Guid> Handle(CreateCarCommand request, CancellationToken cancellationToken)
         {
 
-            var car = _mapper.Map<Domain.Entities.Cars.Car>(request);
+            var car = _mapper.Map<Domain.Entities.Car>(request);
 
             await _unitOfWork.Cars.AddAsync(car);
             await _unitOfWork.CompleteAsync();

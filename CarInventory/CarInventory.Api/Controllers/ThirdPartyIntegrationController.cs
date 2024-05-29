@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarInventory.Api.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/thirdparty")]
     [ApiController]
     public class ThirdPartyIntegrationController : ControllerBase
     {

@@ -10,13 +10,12 @@ namespace CarInventory.Application.Queries.Car
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<GetAllCarsQueryHandler> _logger;
 
-        public GetAllCarsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetAllCarsQueryHandler> logger)
+
+        public GetAllCarsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public async Task<PaginatedList<CarDto>> Handle(GetAllCarsQuery request, CancellationToken cancellationToken)
@@ -25,7 +24,7 @@ namespace CarInventory.Application.Queries.Car
 
             var carDtos = _mapper.Map<IEnumerable<CarDto>>(cars.ToList());
 
-            var paginatedCars = await PaginatedList<CarDto>.CreateAsync((IQueryable<CarDto>)carDtos, request.PageNumber, request.PageSize);
+            var paginatedCars = await PaginatedList<CarDto>.CreateAsync(carDtos, request.PageNumber, request.PageSize);
  
             return paginatedCars;
         }

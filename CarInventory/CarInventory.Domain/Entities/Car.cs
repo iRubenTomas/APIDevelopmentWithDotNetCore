@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CarInventory.Domain.Entities.Cars
+namespace CarInventory.Domain.Entities
 {
     public class Car : BaseIdentity
     {

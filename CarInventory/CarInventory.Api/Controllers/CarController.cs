@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarInventory.Api.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/car")]
     [ApiController]
     public class CarController : ControllerBase
     {
@@ -70,7 +70,7 @@ namespace CarInventory.Api.Controllers
         [ApiVersion("1.0")]
         public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var query = new GetAllCarsPaginatedQuery(pageNumber, pageSize);
+            var query = new GetAllCarsQuery(pageNumber, pageSize);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

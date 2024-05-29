@@ -1,4 +1,4 @@
-﻿using CarInventory.Domain.Entities.Cars;
+﻿using CarInventory.Domain.Entities;
 using CarInventory.Domain.Interfaces;
 using CarInventory.Infrastructure.Data;
 using CarInventory.Infrastructure.Repositories.Shared;
