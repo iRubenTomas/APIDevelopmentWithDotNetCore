@@ -39,10 +39,38 @@ This project is organized to efficiently manage car inventories using a clean ar
 - **Unit and Integration Tests**: Ensure functionality and reliability.
 
 ## Features
-- **Create Car**: Add a new car to the inventory.
-- **Get Cars**: Retrieve a list of all cars.
-- **Update Car**: Update car details.
-- **Delete Car**: Remove a car from the inventory.
+
+### Car Management
+- Add new cars to the inventory (Done)
+- Update car details (Done)
+- Delete cars from the inventory (Done)
+- View car details (Done)
+
+### Inventory Management
+- View list of all cars (TODO)
+- Search and filter cars by various criteria (make, model, year, price, etc.) (TODO)
+- Sort cars by different parameters (price, date added, etc.) (TODO)
+
+### User Authentication and Authorization
+- User registration and login (TODO)
+- Role-based access control (e.g., admin, sales, viewer) (TODO)
+
+### Sales Management 
+- Record sales transactions (TODO)
+- View sales history (TODO)
+- Generate sales reports (TODO)
+
+### Reporting and Analytics
+- Generate reports on inventory status (TODO)
+- Generate sales and revenue reports (TODO)
+- Analytics dashboard for quick insights (TODO)
+
+### Customer Management
+- Add and manage customer details (TODO)
+- View customer purchase history (TODO)
+
+### Notifications
+- Email or SMS notifications for inventory updates, sales, etc. (TODO)
 
 ## Architecture and Design Patterns
 - **Clean Architecture**: Separation of concerns into distinct layers.
